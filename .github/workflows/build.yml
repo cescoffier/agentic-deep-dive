@@ -1,0 +1,64 @@
+name: Build
+
+env:
+  JVM_VERSION: '21'
+  NODE_VERSION: '22'
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: "workflow = ${{ github.workflow }}, ref = ${{ github.event.ref }}, pr = ${{ github.event.pull_request.id }}"
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: "Build Deep Dive"
+    services:
+      ollama:
+        image: ollama/ollama
+        ports:
+          - 11434:11434
+        options: --name ollama --rm
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Pull Ollama models
+        run: |
+          docker exec ollama bash -c "\
+            ollama pull llama3.2 && \
+            ollama pull llava:7b && \
+            ollama pull snowflake-arctic-embed && \
+            ollama pull qwen3:4b && \
+            ollama ls"
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JVM_VERSION }}
+          distribution: temurin
+          cache: maven
+
+      # Node needed by some of the mcp demos
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Maven Build
+        env:
+          OPENAI_API_KEY: change-me
+          TAVILY_API_KEY: change-me
+          COHERE_API_KEY: change-me
+          CI: true
+        run: ./mvnw -B -fae clean verify -Dquarkus.http.host=0.0.0.0
