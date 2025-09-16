@@ -19,7 +19,7 @@
         <quarkus.mcp.version>1.5.3</quarkus.mcp.version>
         <quarkus.langchain4j.version>1.2.0.CR2</quarkus.langchain4j.version>
 
-        <langchain4j.version>1.4.0</langchain4j.version>
+        <langchain4j.version>1.5.0</langchain4j.version>
         <langchain4j.agentic.version>1.5.0-beta11</langchain4j.agentic.version>
     </properties>
 
