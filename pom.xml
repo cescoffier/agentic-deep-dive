@@ -26,6 +26,7 @@
     <modules>
         <module>5-mcp</module>
         <module>7-agentic-workflow</module>
+        <module>x-context-engineering</module>
     </modules>
     <dependencyManagement>
         <dependencies>

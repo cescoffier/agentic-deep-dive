@@ -25,13 +25,15 @@ public class SequentialAgentExample {
                 .outputName("tailoredCv")
                 .build();
 
-        String lifeStory = StringLoader.loadFromResource("/documents/user_life_story.txt");
-        String instructions = "Adapt the CV to the job description below." + StringLoader.loadFromResource("/documents/job_description_backend.txt");
-
-        SequenceCvGenerator sequenceCvGenerator = AgenticServices.sequenceBuilder(SequenceCvGenerator.class)
+        SequenceCvGenerator sequenceCvGenerator = AgenticServices
+                .sequenceBuilder(SequenceCvGenerator.class)
                 .subAgents(cvGenerator, cvTailor)
                 .outputName("tailoredCv")
                 .build();
+
+        String lifeStory = StringLoader.loadFromResource("/documents/user_life_story.txt");
+        String instructions = "Adapt the CV to the job description below." +
+                StringLoader.loadFromResource("/documents/job_description_backend.txt");
 
         String tailoredCv = sequenceCvGenerator.generateTailoredCv(lifeStory, instructions);
         System.out.println(tailoredCv);

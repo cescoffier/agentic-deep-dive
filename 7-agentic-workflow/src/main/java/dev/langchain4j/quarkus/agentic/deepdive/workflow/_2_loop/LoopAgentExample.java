@@ -52,7 +52,6 @@ public class LoopAgentExample {
 
         String tailoredCv = reviewedCvGenerator.reviewCv(lifeStory, jobDescription);
 
-        // 6. and print the generated CV
         System.out.println("=== REVIEWED CV ===");
         System.out.println(tailoredCv);
     }
