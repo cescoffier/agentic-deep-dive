@@ -24,6 +24,7 @@
     </properties>
 
     <modules>
+        <module>0-intro</module>
         <module>5-mcp</module>
         <module>7-agentic-workflow</module>
         <module>x-context-engineering</module>
