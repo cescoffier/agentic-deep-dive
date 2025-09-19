@@ -28,6 +28,7 @@
         <module>5-mcp</module>
         <module>7-agentic-workflow</module>
         <module>x-context-engineering</module>
+        <module>8-ai-service-as-tool</module>
     </modules>
     <dependencyManagement>
         <dependencies>
