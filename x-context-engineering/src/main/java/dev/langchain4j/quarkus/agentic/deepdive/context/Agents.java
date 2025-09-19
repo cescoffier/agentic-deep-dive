@@ -22,7 +22,6 @@ public class Agents {
             Analyze the following user request under a medical point of view and provide the best possible answer.
             The user request is {{request}}.
             """)
-        @Tool("A medical expert")
         @Agent("A medical expert")
         String medical(@MemoryId String memoryId, @V("request") String request);
 
@@ -39,7 +38,6 @@ public class Agents {
             Analyze the following user request under a legal point of view and provide the best possible answer.
             The user request is {{request}}.
             """)
-        @Tool("A legal expert")
         @Agent("A legal expert")
         String legal(@MemoryId String memoryId, @V("request") String request);
 
@@ -56,7 +54,6 @@ public class Agents {
             Analyze the following user request under a technical point of view and provide the best possible answer.
             The user request is {{request}}.
             """)
-        @Tool("A technical expert")
         @Agent("A technical expert")
         String technical(@MemoryId String memoryId, @V("request") String request);
 
