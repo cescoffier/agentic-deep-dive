@@ -1,6 +1,5 @@
 package dev.langchain4j.quarkus.agentic.deepdive.context;
 
-import dev.langchain4j.agent.tool.Tool;
 import dev.langchain4j.agentic.Agent;
 import dev.langchain4j.agentic.declarative.ActivationCondition;
 import dev.langchain4j.agentic.declarative.ChatMemoryProviderSupplier;
@@ -12,7 +11,6 @@ import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.service.MemoryId;
 import dev.langchain4j.service.UserMessage;
-import dev.langchain4j.service.V;
 
 public class Agents {
     public interface MedicalExpertWithMemory {
@@ -20,10 +18,10 @@ public class Agents {
         @UserMessage("""
             You are a medical expert.
             Analyze the following user request under a medical point of view and provide the best possible answer.
-            The user request is {{request}}.
+            The user request is {request}.
             """)
         @Agent("A medical expert")
-        String medical(@MemoryId String memoryId, @V("request") String request);
+        String medical(@MemoryId String memoryId, String request);
 
         @ChatMemoryProviderSupplier
         static ChatMemory chatMemory(Object memoryId) {
@@ -36,10 +34,10 @@ public class Agents {
         @UserMessage("""
             You are a legal expert.
             Analyze the following user request under a legal point of view and provide the best possible answer.
-            The user request is {{request}}.
+            The user request is {request}.
             """)
         @Agent("A legal expert")
-        String legal(@MemoryId String memoryId, @V("request") String request);
+        String legal(@MemoryId String memoryId, String request);
 
         @ChatMemoryProviderSupplier
         static ChatMemory chatMemory(Object memoryId) {
@@ -52,10 +50,10 @@ public class Agents {
         @UserMessage("""
             You are a technical expert.
             Analyze the following user request under a technical point of view and provide the best possible answer.
-            The user request is {{request}}.
+            The user request is {request}.
             """)
         @Agent("A technical expert")
-        String technical(@MemoryId String memoryId, @V("request") String request);
+        String technical(@MemoryId String memoryId, String request);
 
         @ChatMemoryProviderSupplier
         static ChatMemory chatMemory(Object memoryId) {
@@ -73,10 +71,10 @@ public class Agents {
             Analyze the following user request and categorize it as 'legal', 'medical' or 'technical'.
             In case the request doesn't belong to any of those categories categorize it as 'unknown'.
             Reply with only one of those words and nothing else.
-            The user request is: '{{request}}'.
+            The user request is: '{request}'.
             """)
         @Agent("Categorize a user request")
-        RequestCategory classify(@V("request") String request);
+        RequestCategory classify(String request);
     }
 
     public interface ExpertsAgentWithMemory {
@@ -86,20 +84,20 @@ public class Agents {
                 @SubAgent(type = TechnicalExpertWithMemory.class, outputName = "response"),
                 @SubAgent(type = LegalExpertWithMemory.class, outputName = "response", summarizedContext = {"medical", "technical"})
         })
-        String askExpert(@V("request") String request);
+        String askExpert(String request);
 
         @ActivationCondition(MedicalExpertWithMemory.class)
-        static boolean activateMedical(@V("category") RequestCategory category) {
+        static boolean activateMedical(RequestCategory category) {
             return category == RequestCategory.MEDICAL;
         }
 
         @ActivationCondition(TechnicalExpertWithMemory.class)
-        static boolean activateTechnical(@V("category") RequestCategory category) {
+        static boolean activateTechnical(RequestCategory category) {
             return category == RequestCategory.TECHNICAL;
         }
 
         @ActivationCondition(LegalExpertWithMemory.class)
-        static boolean activateLegal(@V("category") RequestCategory category) {
+        static boolean activateLegal(RequestCategory category) {
             return category == RequestCategory.LEGAL;
         }
     }
@@ -110,6 +108,6 @@ public class Agents {
                 @SubAgent(type = CategoryRouterWithModel.class, outputName = "category"),
                 @SubAgent(type = ExpertsAgentWithMemory.class, outputName = "response")
         })
-        String ask(@MemoryId String memoryId, @V("request") String request);
+        String ask(@MemoryId String memoryId, String request);
     }
 }
