@@ -5,19 +5,24 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.quarkus.langchain4j</groupId>
-        <artifactId>agentic-deep-dive</artifactId>
+        <artifactId>7-agentic-workflow</artifactId>
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>9-supervisor</artifactId>
+    <artifactId>workflow-declarative</artifactId>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
     <dependencies>
+        <dependency>
+            <groupId>io.quarkus.langchain4j</groupId>
+            <artifactId>workflow-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>io.quarkiverse.langchain4j</groupId>
             <artifactId>quarkus-langchain4j-openai</artifactId>

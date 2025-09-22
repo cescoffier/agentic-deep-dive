@@ -13,11 +13,14 @@ public class SupervisorMain implements QuarkusApplication {
     @Inject
     SupervisorBanker supervisorBanker;
 
+    @Inject
+    BankTool bankTool;
+
     @Override
     public int run(String... args) throws Exception {
-//        System.out.println("How can I help you?");
-//        System.out.print("> ");
-//        String request = System.console().readLine();
+        bankTool.createAccount("Mario", 1000.0);
+        bankTool.createAccount("Georgios", 1000.0);
+
         String request = "Transfer 100 EUR from Mario's account to Georgios' one";
         String response = supervisorBanker.invoke(request);
         System.out.println(response);
