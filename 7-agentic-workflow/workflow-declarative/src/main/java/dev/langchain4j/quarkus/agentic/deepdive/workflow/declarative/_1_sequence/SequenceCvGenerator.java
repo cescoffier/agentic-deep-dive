@@ -1,4 +1,4 @@
-package dev.langchain4j.quarkus.agentic.deepdive.workflow.declarative;
+package dev.langchain4j.quarkus.agentic.deepdive.workflow.declarative._1_sequence;
 
 import dev.langchain4j.agentic.declarative.SequenceAgent;
 import dev.langchain4j.agentic.declarative.SubAgent;

@@ -1,14 +1,12 @@
-package dev.langchain4j.quarkus.agentic.deepdive.workflow.declarative;
+package dev.langchain4j.quarkus.agentic.deepdive.workflow.declarative._1_sequence;
 
 import dev.langchain4j.quarkus.agentic.deepdive.workflow.common.util.StringLoader;
 import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
-import io.quarkus.runtime.annotations.QuarkusMain;
 import jakarta.inject.Inject;
 
 import java.io.IOException;
 
-@QuarkusMain
 public class SequentialAgentExample implements QuarkusApplication {
 
     @Inject
