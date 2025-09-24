@@ -20,8 +20,6 @@ public class ChatBotWebSocket {
         this.expertRouter = expertRouter;
     }
 
-    private String sessionId;
-
     @OnOpen
     public String onOpen() {
         return "Hello, I am a expert problem solver bot, how can I help?";

@@ -1,11 +1,11 @@
-package dev.langchain4j.quarkus.agentic.supervisor;
+package dev.langchain4j.quarkus.agentic.deepdive.supervisor;
 
 import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
 import jakarta.inject.Inject;
 
-import dev.langchain4j.quarkus.agentic.supervisor.Agents.*;
+import dev.langchain4j.quarkus.agentic.deepdive.supervisor.Agents.*;
 
 @QuarkusMain
 public class SupervisorMain implements QuarkusApplication {

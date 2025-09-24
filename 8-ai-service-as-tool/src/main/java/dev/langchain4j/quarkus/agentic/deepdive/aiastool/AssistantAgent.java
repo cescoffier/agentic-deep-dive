@@ -1,4 +1,4 @@
-package dev.langchain4j.quarkus.agentic.aiastool;
+package dev.langchain4j.quarkus.agentic.deepdive.aiastool;
 
 import dev.langchain4j.service.SystemMessage;
 import dev.langchain4j.service.UserMessage;

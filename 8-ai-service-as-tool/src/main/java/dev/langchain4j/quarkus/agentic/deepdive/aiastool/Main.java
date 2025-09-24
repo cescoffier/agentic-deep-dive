@@ -1,4 +1,4 @@
-package dev.langchain4j.quarkus.agentic.aiastool;
+package dev.langchain4j.quarkus.agentic.deepdive.aiastool;
 
 import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;

@@ -1,4 +1,4 @@
-package dev.langchain4j.quarkus.agentic.supervisor;
+package dev.langchain4j.quarkus.agentic.deepdive.supervisor;
 
 import dev.langchain4j.agentic.Agent;
 import dev.langchain4j.agentic.declarative.SubAgent;
