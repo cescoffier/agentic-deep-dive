@@ -27,7 +27,12 @@
 
     <modules>
         <module>0-intro</module>
-        <module>5-mcp</module>
+        <module>1-chat-models</module>
+        <module>2-ai-services</module>
+        <module>3-quarkus-ai-services</module>
+        <module>4-function-calling</module>
+        <module>5-guardrails</module>
+        <module>6-mcp</module>
         <module>7-agentic-workflow</module>
         <module>8-ai-service-as-tool</module>
         <module>9-supervisor</module>
