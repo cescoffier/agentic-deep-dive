@@ -4,3 +4,65 @@ target/
 /.quarkus/
 **/*.DS_STORE
 8-mcp/**/playground/sum.py
+
+# Environment files
+**/.env
+!**/.env.example
+!**/.env.template
+!**/.envexample
+
+# Python
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+.Python
+**/.pytest_cache/
+**/*.egg-info/
+**/dist/
+**/build/
+**/.venv/
+**/venv/
+
+# UV/Poetry lock files
+**/uv.lock
+**/poetry.lock
+
+# Node.js
+**/node_modules/
+**/package-lock.json
+**/yarn.lock
+**/pnpm-lock.yaml
+
+# Databases
+**/*.db
+**/*.sqlite
+**/*.sqlite3
+
+# IDE (allow specific VSCode configs)
+**/.vscode/
+!**/.vscode/extensions.json
+!**/.vscode/launch.json
+!**/.vscode/settings.json
+!**/.vscode/tasks.json
+
+# Java
+**/build/
+**/.gradle/
+**/.classpath
+**/.project
+**/.settings/
+
+# Logs
+**/*.log
+**/logs/
+
+# OS
+**/Thumbs.db
+
+# Temporary files
+**/tmp/
+**/temp/
+**/*.tmp
+**/*.bak
+**/*.swp
