@@ -1,21 +1,20 @@
 package org.acme;
 
+import dev.langchain4j.guardrail.OutputGuardrail;
+import dev.langchain4j.guardrail.OutputGuardrailRequest;
+import dev.langchain4j.guardrail.OutputGuardrailResult;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import io.quarkus.logging.Log;
-
-import io.quarkiverse.langchain4j.guardrails.OutputGuardrail;
-import io.quarkiverse.langchain4j.guardrails.OutputGuardrailParams;
-import io.quarkiverse.langchain4j.guardrails.OutputGuardrailResult;
 
 @ApplicationScoped
 public class UppercaseOutputGuardrail implements OutputGuardrail {
 
     @Override
-    public OutputGuardrailResult validate(OutputGuardrailParams params) {
-        Log.infof("Response is: %s", params.responseFromLLM().text());
+    public OutputGuardrailResult validate(OutputGuardrailRequest request) {
+        Log.infof("Response is: %s", request.responseFromLLM().aiMessage().text());
 
-        var message = params.responseFromLLM().text();
+        var message = request.responseFromLLM().aiMessage().text();
         var isAllUppercase = message.chars()
                                     .filter(Character::isLetter)
                                     .allMatch(Character::isUpperCase);

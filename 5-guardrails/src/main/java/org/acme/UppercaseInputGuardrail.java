@@ -1,12 +1,12 @@
 package org.acme;
 
+import dev.langchain4j.guardrail.InputGuardrail;
+import dev.langchain4j.guardrail.InputGuardrailResult;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import io.quarkus.logging.Log;
 
 import dev.langchain4j.data.message.UserMessage;
-import io.quarkiverse.langchain4j.guardrails.InputGuardrail;
-import io.quarkiverse.langchain4j.guardrails.InputGuardrailResult;
 
 @ApplicationScoped
 public class UppercaseInputGuardrail implements InputGuardrail {

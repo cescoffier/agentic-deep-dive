@@ -8,7 +8,7 @@ You need to set the `OPENAI_API_KEY` environment variable to the value of your O
 ## Running this app
 1. Run `./mvnw clean quarkus:dev`
 2. See the output in the console
-3. You can comment/uncomment lines in [`GuardrailApplication.java`](src/main/java/org/acme/GuardrailApplication.java) to see the application fail due to guardrails being invoked
+3. You can comment/uncomment lines in [`GuardrailApplication.java`](1-guardrails/src/main/java/org/acme/GuardrailApplication.java) to see the application fail due to guardrails being invoked
 
 > [!NOTE]
 > Use the space bar in the Quarkus console to refresh the app after making a change
