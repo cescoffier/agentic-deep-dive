@@ -10,7 +10,7 @@ import dev.langchain4j.service.AiServices;
 import dev.langchain4j.service.SystemMessage;
 
 @QuarkusMain
-public class Langchain4jAiServiceMesssages implements QuarkusApplication {
+public class Langchain4jAiServiceMessages implements QuarkusApplication {
 
     @Inject
     ChatModel model;
@@ -29,6 +29,6 @@ public class Langchain4jAiServiceMesssages implements QuarkusApplication {
     }
 
     public static void main(String[] args) {
-        io.quarkus.runtime.Quarkus.run(Langchain4jAiServiceMesssages.class, args);
+        io.quarkus.runtime.Quarkus.run(Langchain4jAiServiceMessages.class, args);
     }
 }

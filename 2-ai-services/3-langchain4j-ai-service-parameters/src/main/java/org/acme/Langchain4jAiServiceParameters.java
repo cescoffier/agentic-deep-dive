@@ -21,7 +21,7 @@ public class Langchain4jAiServiceParameters implements QuarkusApplication {
     @Override
     public int run(String... args) {
         Poet poet = AiServices.create(Poet.class, model);
-        System.out.println("Poem: " + poet.answer("Devoxx", "French"));
+        System.out.println("Poem: " + poet.answer("Devoxx", "Dutch"));
 
         return 0;
     }
