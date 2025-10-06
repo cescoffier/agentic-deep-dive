@@ -21,7 +21,7 @@ public class UppercaseOutputGuardrail implements OutputGuardrail {
 
         if (isAllUppercase) {
             Log.info("success");
-            return success();
+            return successWith(message);
         } else {
             return reprompt("The output must be in uppercase.", "Please provide the output in uppercase.");
         }
