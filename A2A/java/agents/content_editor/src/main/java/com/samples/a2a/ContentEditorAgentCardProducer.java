@@ -44,7 +44,7 @@ public final class ContentEditorAgentCardProducer {
         .name("Content Editor Agent")
         .description("An agent that can proof-read and polish content.")
         .url("http://localhost:" + getHttpPort())
-        .version("1.0.0")
+        .version("2.0.0")
         .documentationUrl("http://example.com/docs")
         .capabilities(
             new AgentCapabilities.Builder()

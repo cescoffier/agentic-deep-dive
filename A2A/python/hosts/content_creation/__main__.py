@@ -19,7 +19,6 @@ import traceback  # Import the traceback module
 
 from collections.abc import AsyncIterator
 from pprint import pformat
-
 import gradio as gr
 
 from coordinator import (
