@@ -14,6 +14,7 @@ limitations under the License.
 """
 
 import asyncio
+import json
 import traceback  # Import the traceback module
 
 from collections.abc import AsyncIterator
@@ -42,11 +43,41 @@ COORDINATOR_AGENT_RUNNER = Runner(
 )
 
 
+def pretty_format(data, max_width=100):
+    """Format data for better readability in markdown."""
+    def convert_to_serializable(obj):
+        """Convert complex objects to JSON-serializable format."""
+        if hasattr(obj, 'model_dump'):
+            return obj.model_dump()
+        elif hasattr(obj, '__dict__'):
+            return {k: convert_to_serializable(v) for k, v in obj.__dict__.items() if not k.startswith('_')}
+        elif isinstance(obj, dict):
+            return {k: convert_to_serializable(v) for k, v in obj.items()}
+        elif isinstance(obj, (list, tuple)):
+            return [convert_to_serializable(item) for item in obj]
+        elif isinstance(obj, (str, int, float, bool, type(None))):
+            return obj
+        else:
+            return str(obj)
+
+    try:
+        serializable_data = convert_to_serializable(data)
+        return json.dumps(serializable_data, indent=2, ensure_ascii=False)
+    except Exception as e:
+        # Fallback to pformat if JSON serialization fails
+        try:
+            return pformat(data, indent=2, width=max_width)
+        except Exception:
+            return str(data)
+
+
 async def get_response_from_agent(
     message: str,
     history: list[gr.ChatMessage],
-) -> AsyncIterator[gr.ChatMessage]:
+) -> AsyncIterator[tuple[gr.ChatMessage, str]]:
     """Get response from host agent."""
+    interactions_log = ""
+
     try:
         event_iterator: AsyncIterator[Event] = COORDINATOR_AGENT_RUNNER.run_async(
             user_id=USER_ID,
@@ -60,11 +91,14 @@ async def get_response_from_agent(
             if event.content and event.content.parts:
                 for part in event.content.parts:
                     if part.function_call:
-                        formatted_call = f'```python\n{pformat(part.function_call.model_dump(exclude_none=True), indent=2, width=80)}\n```'
+                        call_data = part.function_call.model_dump(exclude_none=True)
+                        formatted_call = f'```json\n{pretty_format(call_data)}\n```'
+                        interaction_text = f'🛠️ **Agent Call: {part.function_call.name}**\n{formatted_call}\n\n'
+                        interactions_log += interaction_text
                         yield gr.ChatMessage(
                             role='assistant',
-                            content=f'🛠️ **Tool Call: {part.function_call.name}**\n{formatted_call}',
-                        )
+                            content=f'Calling {part.function_call.name}...',
+                        ), interactions_log
                     elif part.function_response:
                         response_content = part.function_response.response
                         if (
@@ -76,11 +110,13 @@ async def get_response_from_agent(
                             ]
                         else:
                             formatted_response_data = response_content
-                        formatted_response = f'```json\n{pformat(formatted_response_data, indent=2, width=80)}\n```'
+                        formatted_response = f'```json\n{pretty_format(formatted_response_data)}\n```'
+                        interaction_text = f'⚡ **Agent Response from {part.function_response.name}**\n{formatted_response}\n\n'
+                        interactions_log += interaction_text
                         yield gr.ChatMessage(
                             role='assistant',
-                            content=f'⚡ **Tool Response from {part.function_response.name}**\n{formatted_response}',
-                        )
+                            content='Processing...',
+                        ), interactions_log
             if event.is_final_response():
                 final_response_text = ''
                 if event.content and event.content.parts:
@@ -90,17 +126,20 @@ async def get_response_from_agent(
                 elif event.actions and event.actions.escalate:
                     final_response_text = f'Agent escalated: {event.error_message or "No specific message."}'
                 if final_response_text:
+                    interactions_log += f'✅ **Final Response**\n{final_response_text}\n\n'
                     yield gr.ChatMessage(
                         role='assistant', content=final_response_text
-                    )
+                    ), interactions_log
                 break
     except Exception as e:
         print(f'Error in get_response_from_agent (Type: {type(e)}): {e}')
-        traceback.print_exc()  # This will print the full traceback
+        traceback.print_exc()
+        error_msg = 'An error occurred while processing your request. Please check the server logs for details.'
+        interactions_log += f'❌ **Error**\n{error_msg}\n\n'
         yield gr.ChatMessage(
             role='assistant',
-            content='An error occurred while processing your request. Please check the server logs for details.',
-        )
+            content=error_msg,
+        ), interactions_log
 
 
 async def main():
@@ -124,11 +163,60 @@ async def main():
             container=False,
             show_fullscreen_button=False,
         )
-        gr.ChatInterface(
-            get_response_from_agent,
-            title='A2A Host Agent',  # Title can be handled by Markdown above
-            description='This assistant can help you to create content',
+
+        gr.Markdown('# A2A Host Agent')
+        gr.Markdown('This assistant can help you to create content')
+
+        with gr.Row():
+            with gr.Column(scale=1):
+                chatbot = gr.Chatbot(label='Chat', height=400)
+                msg = gr.Textbox(
+                    label='Message',
+                    placeholder='Type your message here...',
+                    lines=2,
+                )
+                with gr.Row():
+                    submit = gr.Button('Submit', variant='primary')
+                    clear = gr.Button('Clear')
+
+            with gr.Column(scale=1):
+                interactions = gr.Markdown(
+                    label='Agent Interactions Log',
+                    value='_Waiting for agent interactions..._',
+                    height=400,
+                )
+
+        async def respond(message, chat_history):
+            """Handle user message and update both chat and interactions."""
+            chat_history = chat_history or []
+            chat_history.append([message, None])
+
+            async for chat_msg, interactions_log in get_response_from_agent(message, []):
+                # Update the assistant's response in the last message tuple
+                chat_history[-1] = [message, chat_msg.content]
+                yield chat_history, interactions_log
+
+        submit.click(
+            respond,
+            inputs=[msg, chatbot],
+            outputs=[chatbot, interactions],
+        ).then(
+            lambda: '',
+            None,
+            msg,
         )
+
+        msg.submit(
+            respond,
+            inputs=[msg, chatbot],
+            outputs=[chatbot, interactions],
+        ).then(
+            lambda: '',
+            None,
+            msg,
+        )
+
+        clear.click(lambda: ([], '_Waiting for agent interactions..._'), None, [chatbot, interactions])
 
     print('Launching Gradio interface...')
     demo.queue().launch(
