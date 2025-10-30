@@ -21,18 +21,18 @@ public class HumanInTheLoopMain {
     public static void main(String[] args) {
         CreativeWriter creativeWriter = AgenticServices.agentBuilder(CreativeWriter.class)
                 .chatModel(CHAT_MODEL)
-                .outputName("story")
+                .outputKey("story")
                 .build();
 
         AudienceEditor audienceEditor = AgenticServices.agentBuilder(AudienceEditor.class)
                 .chatModel(CHAT_MODEL)
-                .outputName("story")
+                .outputKey("story")
                 .build();
 
         HumanInTheLoop humanInTheLoop = AgenticServices.humanInTheLoopBuilder()
                 .description("An agent that asks the audience for the story")
                 .inputName("topic")
-                .outputName("audience")
+                .outputKey("audience")
 //                .async(true)
                 .requestWriter(q -> {
                     System.out.println("Which audience for topic " + q + "?");
@@ -52,7 +52,7 @@ public class HumanInTheLoopMain {
                         humanInTheLoop, // asks user for the audience in a non-blocking way
                         creativeWriter, // doesn't need the audience so it can generate the story without waiting for the human-in-the-loop response
                         audienceEditor) // use the audience provided by the human-in-the-loop
-                .outputName("story")
+                .outputKey("story")
                 .build();
 
         Map<String, Object> input = Map.of(

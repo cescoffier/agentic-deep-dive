@@ -21,19 +21,19 @@ public class RoutingWorkflowExample {
         HrCvReviewer hrCvReviewer = AgenticServices
                 .agentBuilder(HrCvReviewer.class)
                 .chatModel(CHAT_MODEL)
-                .outputName("hrReview")
+                .outputKey("hrReview")
                 .build();
 
         ManagerCvReviewer managerCvReviewer = AgenticServices
                 .agentBuilder(ManagerCvReviewer.class)
                 .chatModel(CHAT_MODEL)
-                .outputName("managerReview")
+                .outputKey("managerReview")
                 .build();
 
         TeamMemberCvReviewer teamMemberCvReviewer = AgenticServices
                 .agentBuilder(TeamMemberCvReviewer.class)
                 .chatModel(CHAT_MODEL)
-                .outputName("teamMemberReview")
+                .outputKey("teamMemberReview")
                 .build();
 
         EmailAssistant emailAssistant = AgenticServices
@@ -52,7 +52,7 @@ public class RoutingWorkflowExample {
         UntypedAgent parallelReviewWorkflow = AgenticServices
                 .parallelBuilder()
                 .subAgents(hrCvReviewer, managerCvReviewer, teamMemberCvReviewer)
-                .outputName("combinedCvReview")
+                .outputKey("combinedCvReview")
                 .output(agenticScope -> {
                     CvReview hrReview = (CvReview) agenticScope.readState("hrReview");
                     CvReview managerReview = (CvReview) agenticScope.readState("managerReview");

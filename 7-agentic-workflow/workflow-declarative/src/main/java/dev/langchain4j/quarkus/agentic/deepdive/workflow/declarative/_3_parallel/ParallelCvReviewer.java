@@ -9,12 +9,12 @@ import dev.langchain4j.quarkus.agentic.deepdive.workflow.common.agents.TeamMembe
 import dev.langchain4j.quarkus.agentic.deepdive.workflow.common.domain.CvReview;
 
 public interface ParallelCvReviewer {
-    @ParallelAgent(outputName = "combinedCvReview",
+    @ParallelAgent(outputKey = "combinedCvReview",
             description = "Submit the provided CV to multiple reviewers in parallel and aggregate their feedback",
             subAgents = {
-                    @SubAgent(type = HrCvReviewer.class, outputName = "hrReview"),
-                    @SubAgent(type = ManagerCvReviewer.class, outputName = "managerReview"),
-                    @SubAgent(type = TeamMemberCvReviewer.class, outputName = "teamMemberReview")
+                    @SubAgent(type = HrCvReviewer.class, outputKey = "hrReview"),
+                    @SubAgent(type = ManagerCvReviewer.class, outputKey = "managerReview"),
+                    @SubAgent(type = TeamMemberCvReviewer.class, outputKey = "teamMemberReview")
             })
     CvReview review(String candidateCv, String jobDescription, String hrRequirements, String phoneInterviewNotes);
 

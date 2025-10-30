@@ -6,11 +6,11 @@ import dev.langchain4j.quarkus.agentic.deepdive.workflow.common.agents.CvGenerat
 import dev.langchain4j.quarkus.agentic.deepdive.workflow.common.agents.CvTailor;
 
 public interface SequenceCvGenerator {
-    @SequenceAgent(outputName = "tailoredCv",
+    @SequenceAgent(outputKey = "tailoredCv",
             description = "Generates a CV based on user-provided information and tailored to instructions",
             subAgents = {
-                    @SubAgent(type = CvGenerator.class, outputName = "masterCv"),
-                    @SubAgent(type = CvTailor.class, outputName = "tailoredCv")
+                    @SubAgent(type = CvGenerator.class, outputKey = "masterCv"),
+                    @SubAgent(type = CvTailor.class, outputKey = "tailoredCv")
             })
     String generateTailoredCv(String lifeStory, String instructions);
 }

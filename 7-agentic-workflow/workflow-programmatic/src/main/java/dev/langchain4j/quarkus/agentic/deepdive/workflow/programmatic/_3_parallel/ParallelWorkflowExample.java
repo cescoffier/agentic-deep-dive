@@ -21,22 +21,22 @@ public class ParallelWorkflowExample {
 
         HrCvReviewer hrCvReviewer = AgenticServices.agentBuilder(HrCvReviewer.class)
                 .chatModel(CHAT_MODEL)
-                .outputName("hrReview")
+                .outputKey("hrReview")
                 .build();
 
         ManagerCvReviewer managerCvReviewer = AgenticServices.agentBuilder(ManagerCvReviewer.class)
                 .chatModel(CHAT_MODEL)
-                .outputName("managerReview")
+                .outputKey("managerReview")
                 .build();
 
         TeamMemberCvReviewer teamMemberCvReviewer = AgenticServices.agentBuilder(TeamMemberCvReviewer.class)
                 .chatModel(CHAT_MODEL)
-                .outputName("teamMemberReview")
+                .outputKey("teamMemberReview")
                 .build();
 
         UntypedAgent cvReviewGenerator = AgenticServices.parallelBuilder()
                 .subAgents(hrCvReviewer, managerCvReviewer, teamMemberCvReviewer)
-                .outputName("fullCvReview")
+                .outputKey("fullCvReview")
                 .output(agenticScope -> {
                     // read the outputs of each reviewer from the agentic scope
                     CvReview hrReview = (CvReview) agenticScope.readState("hrReview");

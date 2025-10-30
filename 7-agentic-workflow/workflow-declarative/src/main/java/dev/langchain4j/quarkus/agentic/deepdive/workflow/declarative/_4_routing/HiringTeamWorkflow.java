@@ -7,10 +7,10 @@ import dev.langchain4j.quarkus.agentic.deepdive.workflow.declarative._3_parallel
 import dev.langchain4j.service.V;
 
 public interface HiringTeamWorkflow {
-    @SequenceAgent(outputName = "combinedCvReview",
+    @SequenceAgent(outputKey = "combinedCvReview",
             description = "Based on CV, phone interview and job description, this agent will either invite or reject the candidate",
             subAgents = {
-                    @SubAgent(type = ParallelCvReviewer.class, outputName = "combinedCvReview"),
+                    @SubAgent(type = ParallelCvReviewer.class, outputKey = "combinedCvReview"),
                     @SubAgent(type = CandidateRouter.class)
             })
     CvReview processApplication(@V("candidateCv") String candidateCv,

@@ -10,10 +10,10 @@ import dev.langchain4j.quarkus.agentic.deepdive.workflow.common.domain.CvReview;
 public interface LoopCvReviewer {
     @LoopAgent(
             description = "Review and score the given cv",
-            outputName = "cv", maxIterations = 3,
+            outputKey = "cv", maxIterations = 3,
             subAgents = {
-                    @SubAgent(type = CvReviewer.class, outputName = "cvReview"),
-                    @SubAgent(type = ScoredCvTailor.class, outputName = "cv")
+                    @SubAgent(type = CvReviewer.class, outputKey = "cvReview"),
+                    @SubAgent(type = ScoredCvTailor.class, outputKey = "cv")
             }
     )
     String reviewAndScore(String cv, String jobDescription);

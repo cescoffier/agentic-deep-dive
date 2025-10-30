@@ -6,7 +6,7 @@ import dev.langchain4j.agentic.declarative.SubAgent;
 import dev.langchain4j.quarkus.agentic.deepdive.workflow.common.domain.CvReview;
 
 public interface CandidateRouter {
-    @ConditionalAgent(outputName = "combinedCvReview",
+    @ConditionalAgent(outputKey = "combinedCvReview",
             description = "Submit the provided CV to multiple reviewers in parallel and aggregate their feedback",
             subAgents = {
                     @SubAgent(type = EmailAssistant.class),

@@ -20,20 +20,20 @@ public class LoopAgentExample {
         CvGenerator cvGenerator = AgenticServices
                 .agentBuilder(CvGenerator.class)
                 .chatModel(CHAT_MODEL)
-                .outputName("cv")
+                .outputKey("cv")
                 .build();
         CvReviewer cvReviewer = AgenticServices.agentBuilder(CvReviewer.class)
                 .chatModel(CHAT_MODEL)
-                .outputName("cvReview")
+                .outputKey("cvReview")
                 .build();
         ScoredCvTailor scoredCvTailor = AgenticServices.agentBuilder(ScoredCvTailor.class)
                 .chatModel(CHAT_MODEL)
-                .outputName("cv")
+                .outputKey("cv")
                 .build();
 
         UntypedAgent cdReviewerLoop = AgenticServices.loopBuilder()
                 .subAgents(cvReviewer, scoredCvTailor)
-                .outputName("cv") // this is the final output we want to observe (the improved CV)
+                .outputKey("cv") // this is the final output we want to observe (the improved CV)
                 .exitCondition(agenticScope -> {
                             CvReview review = (CvReview) agenticScope.readState("cvReview");
                             System.out.println("Checking exit condition with score = " + review.score);
@@ -44,7 +44,7 @@ public class LoopAgentExample {
 
         LoopCvReviewer reviewedCvGenerator = AgenticServices.sequenceBuilder(LoopCvReviewer.class)
                 .subAgents(cvGenerator, cdReviewerLoop)
-                .outputName("cv")
+                .outputKey("cv")
                 .build();
 
         String lifeStory = StringLoader.loadFromResource("/documents/user_life_story.txt");

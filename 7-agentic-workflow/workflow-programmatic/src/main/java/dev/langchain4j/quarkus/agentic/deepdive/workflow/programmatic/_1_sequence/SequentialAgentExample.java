@@ -17,18 +17,18 @@ public class SequentialAgentExample {
         CvGenerator cvGenerator = AgenticServices
                 .agentBuilder(CvGenerator.class)
                 .chatModel(CHAT_MODEL)
-                .outputName("masterCv")
+                .outputKey("masterCv")
                 .build();
         CvTailor cvTailor = AgenticServices
                 .agentBuilder(CvTailor.class)
                 .chatModel(CHAT_MODEL)
-                .outputName("tailoredCv")
+                .outputKey("tailoredCv")
                 .build();
 
         SequenceCvGenerator sequenceCvGenerator = AgenticServices
                 .sequenceBuilder(SequenceCvGenerator.class)
                 .subAgents(cvGenerator, cvTailor)
-                .outputName("tailoredCv")
+                .outputKey("tailoredCv")
                 .build();
 
         String lifeStory = StringLoader.loadFromResource("/documents/user_life_story.txt");

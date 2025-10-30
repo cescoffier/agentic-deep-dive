@@ -79,10 +79,10 @@ public class Agents {
 
     public interface ExpertsAgentWithMemory {
 
-        @ConditionalAgent(outputName = "response", subAgents = {
-                @SubAgent(type = MedicalExpertWithMemory.class, outputName = "response"),
-                @SubAgent(type = TechnicalExpertWithMemory.class, outputName = "response"),
-                @SubAgent(type = LegalExpertWithMemory.class, outputName = "response", summarizedContext = {"medical", "technical"})
+        @ConditionalAgent(outputKey = "response", subAgents = {
+                @SubAgent(type = MedicalExpertWithMemory.class, outputKey = "response"),
+                @SubAgent(type = TechnicalExpertWithMemory.class, outputKey = "response"),
+                @SubAgent(type = LegalExpertWithMemory.class, outputKey = "response", summarizedContext = {"medical", "technical"})
         })
         String askExpert(String request);
 
@@ -104,9 +104,9 @@ public class Agents {
 
     public interface ExpertRouterAgentWithMemory extends AgenticScopeAccess {
 
-        @SequenceAgent(outputName = "response", subAgents = {
-                @SubAgent(type = CategoryRouterWithModel.class, outputName = "category"),
-                @SubAgent(type = ExpertsAgentWithMemory.class, outputName = "response")
+        @SequenceAgent(outputKey = "response", subAgents = {
+                @SubAgent(type = CategoryRouterWithModel.class, outputKey = "category"),
+                @SubAgent(type = ExpertsAgentWithMemory.class, outputKey = "response")
         })
         String ask(@MemoryId String memoryId, String request);
     }
