@@ -31,7 +31,7 @@ public class HumanInTheLoopMain {
 
         HumanInTheLoop humanInTheLoop = AgenticServices.humanInTheLoopBuilder()
                 .description("An agent that asks the audience for the story")
-                .inputName("topic")
+                .inputKey("topic")
                 .outputKey("audience")
 //                .async(true)
                 .requestWriter(q -> {
