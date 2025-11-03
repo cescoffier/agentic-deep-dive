@@ -18,7 +18,7 @@
         <logback.version>1.5.20</logback.version>
 
         <quarkus.version>3.29.0</quarkus.version>
-        <quarkus.mcp.version>1.7.0</quarkus.mcp.version>
+        <quarkus.mcp.version>1.7.1</quarkus.mcp.version>
         <quarkus.langchain4j.version>1.4.0.CR2</quarkus.langchain4j.version>
 
         <langchain4j.version>1.8.0</langchain4j.version>
