@@ -22,7 +22,7 @@
         <quarkus.langchain4j.version>1.4.2</quarkus.langchain4j.version>
 
         <langchain4j.version>1.9.1</langchain4j.version>
-        <langchain4j.agentic.version>1.9.1-beta17</langchain4j.agentic.version>
+        <langchain4j.agentic.version>1.10.0-beta18</langchain4j.agentic.version>
     </properties>
 
     <modules>
