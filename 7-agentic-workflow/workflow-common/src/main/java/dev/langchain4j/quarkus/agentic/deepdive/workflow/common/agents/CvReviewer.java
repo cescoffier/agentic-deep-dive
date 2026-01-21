@@ -8,7 +8,7 @@ import dev.langchain4j.service.V;
 
 public interface CvReviewer {
 
-    @Agent("Reviews a CV according to specific instructions, gives feedback and a score")
+    @Agent(description = "Reviews a CV according to specific instructions, gives feedback and a score", outputKey = "cvReview")
     @SystemMessage("""
             You are the hiring manager for this job:
             {{jobDescription}}

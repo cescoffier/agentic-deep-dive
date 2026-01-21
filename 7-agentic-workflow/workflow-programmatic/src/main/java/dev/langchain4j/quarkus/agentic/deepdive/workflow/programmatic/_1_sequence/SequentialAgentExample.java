@@ -17,7 +17,7 @@ public class SequentialAgentExample {
         CvGenerator cvGenerator = AgenticServices
                 .agentBuilder(CvGenerator.class)
                 .chatModel(CHAT_MODEL)
-                .outputKey("masterCv")
+                .outputKey("cv")
                 .build();
         CvTailor cvTailor = AgenticServices
                 .agentBuilder(CvTailor.class)

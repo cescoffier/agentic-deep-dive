@@ -1,58 +1,52 @@
 package org.acme;
 
+import dev.langchain4j.observability.api.event.AiServiceCompletedEvent;
+import dev.langchain4j.observability.api.event.AiServiceErrorEvent;
+import dev.langchain4j.observability.api.event.AiServiceResponseReceivedEvent;
+import dev.langchain4j.observability.api.event.AiServiceStartedEvent;
+import dev.langchain4j.observability.api.event.ToolExecutedEvent;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 
 import io.quarkus.logging.Log;
 
-import io.quarkiverse.langchain4j.audit.InitialMessagesCreatedEvent;
-import io.quarkiverse.langchain4j.audit.LLMInteractionCompleteEvent;
-import io.quarkiverse.langchain4j.audit.LLMInteractionFailureEvent;
-import io.quarkiverse.langchain4j.audit.ResponseFromLLMReceivedEvent;
-import io.quarkiverse.langchain4j.audit.ToolExecutedEvent;
-
 @ApplicationScoped
 public class AuditListener {
-  public void initialMessagesCreated(@Observes InitialMessagesCreatedEvent e) {
+  public void initialMessagesCreated(@Observes AiServiceStartedEvent e) {
     Log.infof(
-			"Initial messages:\nsource: %s\nsystemMessage: %s\nuserMessage: %s",
-	    e.sourceInfo(),
+			"Initial messages:\nsystemMessage: %s\nuserMessage: %s",
 	    e.systemMessage(),
 	    e.userMessage()
     );
   }
 
-  public void llmInteractionComplete(@Observes LLMInteractionCompleteEvent e) {
+  public void llmInteractionComplete(@Observes AiServiceCompletedEvent e) {
     Log.infof(
-			"LLM interaction complete:\nsource: %s\nresult: %s",
-	    e.sourceInfo(),
+			"LLM interaction complete:\nresult: %s",
 	    e.result()
     );
   }
 
-  public void llmInteractionFailed(@Observes LLMInteractionFailureEvent e) {
+  public void llmInteractionFailed(@Observes AiServiceErrorEvent e) {
     Log.infof(
-			"LLM interaction failed:\nsource: %s\nfailure: %s",
-	    e.sourceInfo(),
+			"LLM interaction failed:\nfailure: %s",
 	    e.error().getMessage()
     );
   }
 
-  public void responseFromLLMReceived(@Observes ResponseFromLLMReceivedEvent e) {
+  public void responseFromLLMReceived(@Observes AiServiceResponseReceivedEvent e) {
     Log.infof(
-			"Response from LLM received:\nsource: %s\nresponse: %s",
-	    e.sourceInfo(),
+			"Response from LLM received:\nresponse: %s",
       e.response().aiMessage().text()
     );
   }
 
   public void toolExecuted(@Observes ToolExecutedEvent e) {
     Log.infof(
-			"Tool executed:\nsource: %s\nrequest: %s(%s)\nresult: %s",
-	    e.sourceInfo(),
+			"Tool executed:\nrequest: %s(%s)\nresult: %s",
 	    e.request().name(),
 	    e.request().arguments(),
-	    e.result()
+	    e.resultText()
     );
   }
 }

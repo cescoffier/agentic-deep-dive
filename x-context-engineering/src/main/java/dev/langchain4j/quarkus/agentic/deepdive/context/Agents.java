@@ -5,7 +5,6 @@ import dev.langchain4j.agentic.declarative.ActivationCondition;
 import dev.langchain4j.agentic.declarative.ChatMemoryProviderSupplier;
 import dev.langchain4j.agentic.declarative.ConditionalAgent;
 import dev.langchain4j.agentic.declarative.SequenceAgent;
-import dev.langchain4j.agentic.declarative.SubAgent;
 import dev.langchain4j.agentic.scope.AgenticScopeAccess;
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
@@ -20,7 +19,7 @@ public class Agents {
             Analyze the following user request under a medical point of view and provide the best possible answer.
             The user request is {request}.
             """)
-        @Agent("A medical expert")
+        @Agent(description = "A medical expert", outputKey = "response")
         String medical(@MemoryId String memoryId, String request);
 
         @ChatMemoryProviderSupplier
@@ -36,7 +35,7 @@ public class Agents {
             Analyze the following user request under a legal point of view and provide the best possible answer.
             The user request is {request}.
             """)
-        @Agent("A legal expert")
+        @Agent(description = "A legal expert", outputKey = "response", summarizedContext = {"medical", "technical"})
         String legal(@MemoryId String memoryId, String request);
 
         @ChatMemoryProviderSupplier
@@ -52,7 +51,7 @@ public class Agents {
             Analyze the following user request under a technical point of view and provide the best possible answer.
             The user request is {request}.
             """)
-        @Agent("A technical expert")
+        @Agent(description = "A technical expert", outputKey = "response")
         String technical(@MemoryId String memoryId, String request);
 
         @ChatMemoryProviderSupplier
@@ -73,17 +72,14 @@ public class Agents {
             Reply with only one of those words and nothing else.
             The user request is: '{request}'.
             """)
-        @Agent("Categorize a user request")
+        @Agent(description = "Categorize a user request", outputKey = "category")
         RequestCategory classify(String request);
     }
 
     public interface ExpertsAgentWithMemory {
 
-        @ConditionalAgent(outputKey = "response", subAgents = {
-                @SubAgent(type = MedicalExpertWithMemory.class, outputKey = "response"),
-                @SubAgent(type = TechnicalExpertWithMemory.class, outputKey = "response"),
-                @SubAgent(type = LegalExpertWithMemory.class, outputKey = "response", summarizedContext = {"medical", "technical"})
-        })
+        @ConditionalAgent(outputKey = "response",
+                subAgents = { MedicalExpertWithMemory.class, TechnicalExpertWithMemory.class, LegalExpertWithMemory.class })
         String askExpert(String request);
 
         @ActivationCondition(MedicalExpertWithMemory.class)
@@ -104,10 +100,8 @@ public class Agents {
 
     public interface ExpertRouterAgentWithMemory extends AgenticScopeAccess {
 
-        @SequenceAgent(outputKey = "response", subAgents = {
-                @SubAgent(type = CategoryRouterWithModel.class, outputKey = "category"),
-                @SubAgent(type = ExpertsAgentWithMemory.class, outputKey = "response")
-        })
+        @SequenceAgent(outputKey = "response",
+                subAgents = { CategoryRouterWithModel.class, ExpertsAgentWithMemory.class })
         String ask(@MemoryId String memoryId, String request);
     }
 }

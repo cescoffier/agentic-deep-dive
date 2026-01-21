@@ -8,7 +8,8 @@ import dev.langchain4j.service.V;
 
 public interface HrCvReviewer {
 
-    @Agent(name = "hrReviewer", description = "Reviews a CV to check if candidate fits HR requirements, gives feedback and a score")
+    @Agent(name = "hrReviewer", outputKey = "hrReview",
+            description = "Reviews a CV to check if candidate fits HR requirements, gives feedback and a score")
     @SystemMessage("""
             You are working for HR and review CVs to fill a position with these requirements:
             {{hrRequirements}}

@@ -8,7 +8,7 @@ import dev.langchain4j.service.V;
 
 public interface ScoredCvTailor {
 
-    @Agent("Tailors a CV according to specific instructions")
+    @Agent(description = "Tailors a CV according to specific instructions", outputKey = "cv")
     @SystemMessage("""
             Here is a CV that needs tailoring to a specific job description, feedback or other instruction.
             You can make the CV look good to meet the requirements, but don't invent facts.

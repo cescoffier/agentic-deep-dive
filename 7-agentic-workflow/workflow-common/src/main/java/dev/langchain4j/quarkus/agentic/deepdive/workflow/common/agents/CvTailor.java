@@ -12,11 +12,11 @@ public interface CvTailor {
                 You can make the CV look good to meet the requirements, but don't invent facts.
                 You can drop irrelevant things if it makes the CV better suited to the instructions.
                 The goal is that the applicant gets an interview and can then live up to the CV.
-                The master CV: {{masterCv}}
+                The master CV: {{cv}}
                 """)
     @UserMessage("""
                 Here are the instructions for tailoring the CV: {{instructions}}
                 """)
-    @Agent("Tailors a CV according to specific instructions")
-    String tailorCv(@V("masterCv") String masterCv, @V("instructions") String instructions);
+    @Agent(description = "Tailors a CV according to specific instructions", outputKey = "tailoredCv")
+    String tailorCv(@V("cv") String cv, @V("instructions") String instructions);
 }

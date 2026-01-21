@@ -8,7 +8,8 @@ import dev.langchain4j.service.V;
 
 public interface ManagerCvReviewer {
 
-    @Agent(name = "managerReviewer", description = "Reviews a CV based on a job description, gives feedback and a score")
+    @Agent(name = "managerReviewer", outputKey = "managerReview",
+            description = "Reviews a CV based on a job description, gives feedback and a score")
     @SystemMessage("""
             You are the hiring manager for this job:
             {{jobDescription}}

@@ -13,6 +13,6 @@ public interface CvGenerator {
             Return only the CV, no other text.
             My life story: {{lifeStory}}
             """)
-    @Agent("Generates a clean CV based on user-provided information")
+    @Agent(description = "Generates a clean CV based on user-provided information", outputKey = "cv")
     String generateCv(@V("lifeStory") String userInfo);
 }

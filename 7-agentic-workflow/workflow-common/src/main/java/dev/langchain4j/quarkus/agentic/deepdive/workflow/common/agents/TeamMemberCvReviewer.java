@@ -8,7 +8,8 @@ import dev.langchain4j.service.V;
 
 public interface TeamMemberCvReviewer {
 
-    @Agent(name = "teamMemberReviewer", description = "Reviews a CV to see if candidate fits in the team, gives feedback and a score")
+    @Agent(name = "teamMemberReviewer", outputKey = "teamMemberReview",
+            description = "Reviews a CV to see if candidate fits in the team, gives feedback and a score")
     @SystemMessage("""
             You work in a team with motivated, self-driven colleagues and a lot of freedom.
             Your team values collaboration, responsibility and pragmatism.
