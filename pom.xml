@@ -17,7 +17,7 @@
 
         <logback.version>1.5.32</logback.version>
 
-        <quarkus.version>3.31.4</quarkus.version>
+        <quarkus.version>3.32.1</quarkus.version>
         <quarkus.mcp.version>1.10.2</quarkus.mcp.version>
         <quarkus.langchain4j.version>1.7.4</quarkus.langchain4j.version>
 
