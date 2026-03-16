@@ -5,7 +5,7 @@ import dev.langchain4j.agentic.declarative.ActivationCondition;
 import dev.langchain4j.agentic.declarative.ChatMemoryProviderSupplier;
 import dev.langchain4j.agentic.declarative.ConditionalAgent;
 import dev.langchain4j.agentic.declarative.SequenceAgent;
-import dev.langchain4j.agentic.scope.AgenticScopeAccess;
+import dev.langchain4j.agentic.observability.MonitoredAgent;
 import dev.langchain4j.memory.ChatMemory;
 import dev.langchain4j.memory.chat.MessageWindowChatMemory;
 import dev.langchain4j.service.MemoryId;
@@ -80,25 +80,25 @@ public class Agents {
 
         @ConditionalAgent(outputKey = "response",
                 subAgents = { MedicalExpertWithMemory.class, TechnicalExpertWithMemory.class, LegalExpertWithMemory.class })
-        String askExpert(String request);
+        String askExpert(String request, RequestCategory category);
 
-        @ActivationCondition(MedicalExpertWithMemory.class)
+        @ActivationCondition(value = MedicalExpertWithMemory.class, description = "medical")
         static boolean activateMedical(RequestCategory category) {
             return category == RequestCategory.MEDICAL;
         }
 
-        @ActivationCondition(TechnicalExpertWithMemory.class)
+        @ActivationCondition(value = TechnicalExpertWithMemory.class, description = "technical")
         static boolean activateTechnical(RequestCategory category) {
             return category == RequestCategory.TECHNICAL;
         }
 
-        @ActivationCondition(LegalExpertWithMemory.class)
+        @ActivationCondition(value = LegalExpertWithMemory.class, description = "legal")
         static boolean activateLegal(RequestCategory category) {
             return category == RequestCategory.LEGAL;
         }
     }
 
-    public interface ExpertRouterAgentWithMemory extends AgenticScopeAccess {
+    public interface ExpertRouterAgentWithMemory extends MonitoredAgent {
 
         @SequenceAgent(outputKey = "response",
                 subAgents = { CategoryRouterWithModel.class, ExpertsAgentWithMemory.class })

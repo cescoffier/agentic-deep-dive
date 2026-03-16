@@ -31,18 +31,16 @@ public class HumanInTheLoopMain {
 
         HumanInTheLoop humanInTheLoop = AgenticServices.humanInTheLoopBuilder()
                 .description("An agent that asks the audience for the story")
-                .inputKey("topic")
                 .outputKey("audience")
 //                .async(true)
-                .requestWriter(q -> {
-                    System.out.println("Which audience for topic " + q + "?");
+                .responseProvider(scope -> {
+                    System.out.println("Which audience for topic " + scope.readState("topic", "") + "?");
                     System.out.print("> ");
-                })
-                .responseReader(() -> {
                     try {
-                        return new BufferedReader(new InputStreamReader(System.in)).readLine();
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+                        return reader.readLine();
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        throw new RuntimeException("Failed to read input", e);
                     }
                 })
                 .build();

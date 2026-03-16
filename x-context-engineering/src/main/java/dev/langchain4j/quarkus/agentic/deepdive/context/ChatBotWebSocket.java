@@ -5,7 +5,7 @@ import io.quarkus.websockets.next.OnTextMessage;
 import io.quarkus.websockets.next.WebSocket;
 import io.smallrye.common.annotation.Blocking;
 
-import dev.langchain4j.quarkus.agentic.deepdive.context.Agents.*;
+import dev.langchain4j.quarkus.agentic.deepdive.context.Agents.ExpertRouterAgentWithMemory;
 import jakarta.inject.Inject;
 
 @WebSocket(path = "/chatbot")
