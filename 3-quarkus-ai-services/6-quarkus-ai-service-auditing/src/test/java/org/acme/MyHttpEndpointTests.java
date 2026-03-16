@@ -58,9 +58,9 @@ class MyHttpEndpointTests {
 		assertThat(logMessages)
 			.hasSizeGreaterThanOrEqualTo(3)
 			.containsSequence(
-				"Initial messages:\nsource: %s\nsystemMessage: %s\nuserMessage: %s",
-				"Response from LLM received:\nsource: %s\nresponse: %s",
-				"LLM interaction complete:\nsource: %s\nresult: %s"
+				"Initial messages:\nsystemMessage: %s\nuserMessage: %s",
+				"Response from LLM received:\nresponse: %s",
+				"LLM interaction complete:\nresult: %s"
 			);
 	}
 }
