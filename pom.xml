@@ -15,7 +15,7 @@
         <compiler-plugin.version>3.15.0</compiler-plugin.version>
         <surefire-plugin.version>3.5.6</surefire-plugin.version>
 
-        <logback.version>1.5.32</logback.version>
+        <logback.version>1.5.34</logback.version>
 
         <quarkus.version>3.36.0</quarkus.version>
         <quarkus.mcp.version>1.12.1</quarkus.mcp.version>
